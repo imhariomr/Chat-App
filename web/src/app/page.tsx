@@ -6,7 +6,7 @@ export default function Home() {
   return(
     <div>
       <Button color="primary" size="sm" label="test" icon={faUser} iconSize="lg"/>
-      <Input type="text" size="sm" placeholder="Enter your name"/>
+      <Input type="text" size="md" placeholder="Enter your name"/>
     </div>
   );
 }
