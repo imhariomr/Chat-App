@@ -15,13 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.signup = void 0;
 const client_1 = require("@prisma/client");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const auth_schema_1 = require("../validators/auth.schema");
 const prisma = new client_1.PrismaClient();
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-        return res.status(400).json({ message: "All fields are required" });
-    }
     try {
+        const parsed = auth_schema_1.signupSchema.safeParse(req.body);
+        if (!parsed.success) {
+            const error = parsed.error.errors[0].message;
+            return res.status(400).json({ message: error });
+        }
+        const { name, email, password } = parsed.data;
         const existingUser = yield prisma.user.findUnique({ where: {
                 email
             } });
@@ -29,7 +32,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.status(400).json({ message: "User Already Exist" });
         }
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
-        const newUser = yield prisma.user.create({
+        const User = yield prisma.user.create({
             data: {
                 name,
                 email,
@@ -38,7 +41,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
         res.status(201).json({
             message: "User created successfully",
-            newUser
+            User
         });
     }
     catch (err) {

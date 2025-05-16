@@ -28,9 +28,9 @@ function main() {
         console.log("Database connected");
     });
 }
-main()
-    .catch(e => console.error(e))
-    .finally(() => prisma.$disconnect());
+main();
+// .catch(e => console.error(e))
+// .finally(() => prisma.$disconnect());
 app.listen(port, () => {
     console.log(`The App is listening on ${port}`);
 });

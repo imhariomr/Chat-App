@@ -1,5 +1,6 @@
 "use client"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Loader from "./Loader";
 
 interface ButtonProps{
     label:string;
@@ -8,6 +9,8 @@ interface ButtonProps{
     icon ?: any;
     iconSize ?: "sm" | "md" | "lg";
     className ?: string;
+    disabled?:any;
+    loader?:boolean
 }
 
 const colorVariant = {
@@ -27,11 +30,24 @@ const iconSizeVariant = {
     "lg" : "w-6 h-4"
 }
 
-const defaultClass = "rounded-md border-none flex items-center justify-center gap-1 py-2";
+const loadersizeVariant:any = {
+    "sm" : [12,2],
+    "md" : [25,3],
+    "lg" : [35,4]
+}
 
-export default function Button({label,color,size,icon,iconSize,className}:ButtonProps){
+const defaultClass = "rounded-md border-none flex items-center justify-center gap-2";
+
+export default function Button({label,color,size,icon,iconSize,className,disabled,loader}:ButtonProps){
+    const [height,width] = loadersizeVariant['sm'];
     return(
-        <button className={`${colorVariant[color]} ${sizeVariant[size]} ${defaultClass} ${className}`}>
+        <button className={`${colorVariant[color]} ${sizeVariant[size]} ${defaultClass} ${className} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`} disabled={disabled}>
+            {loader && (
+                <span className="flex items-center">
+                    <Loader height={height} width={width} />
+                </span>
+            )}
+
             {icon && <FontAwesomeIcon icon={icon} className={`${iconSizeVariant[iconSize ?? 'sm']}`} />}
             {label}
         </button>
