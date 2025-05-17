@@ -1,12 +1,17 @@
-import Button from "@/ui/Button";
-import Input from "@/ui/Input";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
+'use client'
+import Logout from "@/shared/ui/logout/logout";
+import { checkTokenExpiry } from "../../utils/auth";
+import { useEffect } from "react";
+
 
 export default function Home() {
+  useEffect(() => {
+    checkTokenExpiry();
+  }, []);
   return(
-    <div>
-      <Button color="primary" size="sm" label="test" icon={faUser} iconSize="lg"/>
-      <Input type="text" size="md" placeholder="Enter your name"/>
+    <div className="flex gap-2">
+      <Logout/>
     </div>
   );
 }
+

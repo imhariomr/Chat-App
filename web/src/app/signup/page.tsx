@@ -1,11 +1,11 @@
 "use client";
-import Button from "@/ui/Button";
-import Input from "@/ui/Input";
+import Button from "@/shared/ui/Button";
+import Input from "@/shared/ui/Input";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 
 type FormData = {
   name: string;
@@ -14,6 +14,7 @@ type FormData = {
 };
 
 export default function Signup() {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const [loading,setloading] = useState(false);
   const {
     register,
@@ -24,7 +25,7 @@ export default function Signup() {
   const onSubmit = async (data: FormData) => {
     setloading(true);
     try {
-      const res = await axios.post("http://localhost:3001/api/users/signup", data);
+      const res = await axios.post(`${API_URL}/user/signup`, data);
       if (res) {
         setloading(false);
         toast.success("User Signed Up");
@@ -34,7 +35,6 @@ export default function Signup() {
       toast.error(error.response?.data?.message || "Signup failed");
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">

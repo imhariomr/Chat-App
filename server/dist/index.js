@@ -16,12 +16,14 @@ const express_1 = __importDefault(require("express"));
 const client_1 = require("@prisma/client");
 const cors_1 = __importDefault(require("cors"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
+const room_routes_1 = __importDefault(require("./routes/room.routes"));
 const app = (0, express_1.default)();
 const port = 3001;
 const prisma = new client_1.PrismaClient();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-app.use('/api/users', user_routes_1.default);
+app.use('/api/user', user_routes_1.default);
+app.use('/api/room', room_routes_1.default);
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         yield prisma.$connect();
